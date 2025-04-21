@@ -1,93 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Finding the SHA256 hash</title>
-    <style>
-      body {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        background-color: #fffaff;
-      }
-      /* wrapper */
-      #wrapper {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        border: 3px solid #0a2463;
-        padding: 16px;
-      }
-      /* sha256-hash */
-      #sha256-hash {
-        background-color: #2C76A7;
-        padding: 16px;
-        border-radius: 8px;
-        color: #fffaff;
-      }
-      #sha256-hash::before {
-        content: 'SHA256 Hash';
-        font-weight: bold;
-        display: block;
-        margin-bottom: 8px;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SHA256 Hash Challenge</title>
+  <style>
+    :root {
+      --primary: #0a2463;
+      --secondary: #3e92cc;
+      --accent: #2c76a7;
+      --light: #fffaff;
+      --success: #4caf50;
+      --error: #f44336;
+    }
 
-      /* user-input */
-      #user-input {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        margin-top: 16px;
-      }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: var(--light);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
 
-      #user-input input {
-        padding: 8px;
-        border-radius: none;
-        border: 3px solid #0a2463;
-        margin-right: 8px;
-      }
+    h1 {
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
 
-      #user-input input:focus {
-        outline: none;
-      }
+    .container {
+      background-color: var(--secondary);
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
 
-      #user-input button {
-        padding: 8px;
-        border-radius: none;
-        border: 3px solid #0a2463;
-        background-color: #2C76A7;
-        color: #fffaff;
-        font-weight: bold;
-      }
+    #sha256-hash {
+      font-size: 0.8rem;
+      background-color: #fff;
+      padding: 10px;
+      border-radius: 6px;
+      word-wrap: break-word;
+      margin-bottom: 15px;
+    }
 
-      /* result div */
-      #result {
-        margin-top: 16px;
-        background-color: #3e92cc;
-        padding: 8px;
-        border-radius: none;
-        color: #fffaff;
-      }
+    input[type="text"] {
+      padding: 10px;
+      font-size: 1rem;
+      width: 100px;
+      text-align: center;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
 
-      .hidden {
-        display: none;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="wrapper">
-      <span id="sha256-hash"></span>
-      <div id="user-input">
-        <input type="text" id="pin" />
-        <button id="check">Check</button>
-      </div>
-      <div id="result" class="hidden"></div>
-    </div>
-    <script src="script.js" async></script>
-  </body>
+    button {
+      padding: 10px 20px;
+      background-color: var(--accent);
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    button:hover {
+      background-color: var(--primary);
+    }
+
+    .success {
+      color: var(--success);
+      font-weight: bold;
+    }
+
+    .error {
+      color: var(--error);
+      font-weight: bold;
+    }
+
+    #result.hidden {
+      display: none;
+    }
+
+    #attempts {
+      font-weight: bold;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1> SHA256 Hash Challenge</h1>
+
+  <div class="container">
+    <p>Guess the 3-digit PIN that matches the SHA256 hash below:</p>
+    <div id="sha256-hash">Loading hash...</div>
+
+    <input type="text" id="pin" placeholder="Enter PIN" maxlength="3" />
+    <br />
+    <button id="check">Check</button>
+    <button id="reset">Reset</button>
+
+    <div id="result" class="hidden"></div>
+    <p>Attempts: <span id="attempts">0</span></p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
 </html>
